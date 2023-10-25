@@ -50,6 +50,12 @@
   color: #ffffff;
   font: 400 60px serif;
 }
+.weatherDate {
+  display: flex;
+  justify-content: center;
+  color: #ffffff;
+  font: 400 30px serif;
+}
 .weatherContainer {
   display: flex;
   margin-top: 50px;
@@ -61,4 +67,14 @@
   align-items: flex-start;
   margin: auto;
   gap: 12px;
+}
+.data {
+  font: 400 34px serif;
+}
+.text {
+  font: 400 20px serif;
+  color: #ffffff;
+}
+.icon {
+  margin-top: 10px;
 }
