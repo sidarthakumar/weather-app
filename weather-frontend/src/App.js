@@ -6,22 +6,22 @@ function App() {
     let inputValue = event.target.value;
     setCityName(inputValue);
   };
-  let handleSubmit = (event) => {
-    let apiURL =
-      "https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={f7a7c07263f43910173a97a08fdc61db}";
-    let apiData = axios.get(apiURL).then((res) => {
-      console.log(res);
-    });
-
-    alert("hello");
+  let getData = (event) => {
     event.preventDefault();
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=4cfb30d1994548e96db40e91ed852739&units=metric`
+      )
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   return (
     <div className="w-[100%] h-screen bg-[#88caef]">
       <div className="max-w-[1320px] mx-auto py-6">
         <h1 className="text-[40px] font-bold">Simple Weather App</h1>
-        <form className="flex max-w-[700px] my-6" onSubmit={handleSubmit}>
+        <form className="flex max-w-[700px] my-6" onSubmit={getData}>
           <input
             type="text"
             value={cityName}
