@@ -1,11 +1,15 @@
 import { useState } from "react";
 import axios from "axios";
 function App() {
-  let [cityName, setCityName] = useState("");
+  let [cityName, setCityName] = useState([]);
+  let [result, setResult] = useState(null);
   let updateCityName = (event) => {
     let inputValue = event.target.value;
+
     setCityName(inputValue);
   };
+  console.log(cityName);
+
   let getData = (event) => {
     event.preventDefault();
     axios
@@ -13,8 +17,9 @@ function App() {
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=4cfb30d1994548e96db40e91ed852739&units=metric`
       )
       .then((res) => {
-        console.log(res);
+        setResult(res.data);
       });
+      
   };
 
   return (
@@ -33,12 +38,21 @@ function App() {
           </button>
         </form>
         <div className="flex gap-3 flex-wrap">
-          <div className="p-3 bg-white basis-[32%]">
-            <h2 className="font-bold">Jodhpur IN</h2>
-            <h2 className="font-bold">32.23</h2>
-            <img src="" alt="" />
-            <p>Broken Clouds</p>
-          </div>
+          {result !== null ? (
+            <div className="p-3 bg-white basis-[32%]">
+              <h2 className="font-bold">{result.name}</h2>
+              <h2 className="font-bold">{result.main.temp}</h2>
+              <img
+                src={`https://openweathermap.org/img/w/${result.weather[0].icon}.png`}
+                alt=""
+              />
+              <p>{result.weather[0].description}</p>
+            </div>
+          ) : (
+            <div className="p-3 bg-white basis-[32%]">
+              <h2 className="font-bold">Result Not Found</h2>
+            </div>
+          )}
         </div>
       </div>
     </div>
