@@ -1,12 +1,14 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 function App() {
-  let [cityName, setCityName] = useState([]);
-  let [result, setResult] = useState(null);
+  let [cityName, setCityName] = useState('');
+
+  let [result, setResult] = useState([]);
   let updateCityName = (event) => {
     let inputValue = event.target.value;
 
     setCityName(inputValue);
+    // inputValue.reset();
   };
   console.log(cityName);
 
@@ -17,9 +19,10 @@ function App() {
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=4cfb30d1994548e96db40e91ed852739&units=metric`
       )
       .then((res) => {
-        setResult(res.data);
+        let finalResult = [...result, res.data];
+        setResult(finalResult);
+        console.log(finalResult);
       });
-      
   };
 
   return (
@@ -38,20 +41,24 @@ function App() {
           </button>
         </form>
         <div className="flex gap-3 flex-wrap">
-          {result !== null ? (
+          {result.length < 1 ? (
             <div className="p-3 bg-white basis-[32%]">
-              <h2 className="font-bold">{result.name}</h2>
-              <h2 className="font-bold">{result.main.temp}</h2>
-              <img
-                src={`https://openweathermap.org/img/w/${result.weather[0].icon}.png`}
-                alt=""
-              />
-              <p>{result.weather[0].description}</p>
+              <h2 className="font-bold">No Record Found</h2>
             </div>
           ) : (
-            <div className="p-3 bg-white basis-[32%]">
-              <h2 className="font-bold">Result Not Found</h2>
-            </div>
+            result.map((data, index) => (
+              <div className="p-3 bg-white basis-[32%]" key={index}>
+                <h2 className="font-bold">
+                  {data.name}, {data.sys.country}
+                </h2>
+                <h2 className="font-bold">{data.main.temp}</h2>
+                <img
+                  src={`https://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+                  alt=""
+                />
+                <p>{data.weather[0].description}</p>
+              </div>
+            ))
           )}
         </div>
       </div>
